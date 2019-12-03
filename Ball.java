@@ -32,11 +32,20 @@ public class Ball extends JPanel implements ActionListener, KeyListener {
     // Initialize Ball Positions And Size (In Center)
     public int x = 700-60;
     public int y = 400-60;
-    public int sx = 60;
-    public int sy = 60;
+    public int cx = 60;
+    public int cy = 60;
 
-    double dx;
-    double dy;
+    // Initalize Square Positions And Size( To The Left)
+    public int hsquare = 10;    
+    public int lsquare = 100;
+    public int xsquare = 0;
+    public int ysquare = 10;
+    public int xsquareVel = 0;
+    public int ysquarVel = 1;
+
+
+    double dx = 1;
+    double dy = 1;
 
     
 
@@ -69,11 +78,15 @@ public class Ball extends JPanel implements ActionListener, KeyListener {
 
         // Draws the circle at new positionw ith same diameter
         g2d.setColor(Color.black);
-        g2d.fillOval(x, y, sx, sy);
+        g2d.fillOval(x, y, cx, cy);
+
+        g2d.setColor(Color.black);
+        g2d.fillRect(xsquare, ysquare, hsquare, lsquare);
+
+        
     }
 
     
-
     ////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 
@@ -104,14 +117,22 @@ public class Ball extends JPanel implements ActionListener, KeyListener {
         //Repaints Scree(Clears Old Player Location)
         //And Moves The Circle(Adds To Its Position/Transform)
         repaint();
-        if(x <= 0 || x >= w-sx ){
+        if(x <= 0 || x >= w-cx ){
             dx = dx * -1;
         }
-        if(y <= 0 || y >= h-sy){
+        if(y <= 0 || y >= h-cy){
             dy = dy * -1;
         }
+
         x += dx*3;
         y += dy*3;
+
+        if(ysquare <= 0 || ysquare >= h-(lsquare+10)){
+            ysquarVel = ysquarVel * -1;
+        }
+
+        ysquare += ysquarVel;
+        ysquare += ysquarVel*3;
         
         
 
@@ -120,21 +141,25 @@ public class Ball extends JPanel implements ActionListener, KeyListener {
     //Sets The Values Being Added To Circle Movement
     //Based On Player Input
     public void up(){
-        dy = -1.5;
-        dx = 0;
+        //dy = -1.5;
+        //dx = 0;
+
+        ysquarVel = -1;
         
     }
     public void down(){
-        dy = 1.5;
-        dx = 0;
+        //dy = 1.5;
+        //dx = 0;
+
+        ysquarVel = 1;
     }
     public void left(){
-        dx = -1.5;
-        dy = 0;
+        //dx = -1.5;
+        //dy = 0;
     }
     public void right(){
-        dx = 1.5;
-        dy = 0;
+        //dx = 1.5;
+        //dy = 0;
     }
     /////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
