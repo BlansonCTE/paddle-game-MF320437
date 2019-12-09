@@ -1,6 +1,6 @@
 import java.awt.*;
 
-class Ball implements ActionListener, KeyListener{
+class Ball{
     
     ///////////////////////////////////////////////Variables
     private Game game;
@@ -15,31 +15,19 @@ class Ball implements ActionListener, KeyListener{
     double dx = 1;
     double dy = 1;
 
-    ///////////////////////////////////////////////Functions
+
 
     ////////////////Constructor
-    public Ball(Game game){
-        this.game = game;
+    public Ball(Game ngame){
+        this.game = ngame;
     }
 
 
-    ////////////////Move Ball
-    public void paint(Graphics g) {
-        // Clears the screen before reprint a circle at a new postion
-        super.paint(g);
-        Graphics2D g2d = (Graphics2D) g;
-
-        // Antialising makes the figure smoother
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        //Creates Player One Paddle
-        g2d.setColor(Color.black);
-        g2d.fillRect(xsquare, ysquare, hsquare, lsquare);
-
-
+    public void moveBall(){
+        x += dx*2;
+        y += dy*2;
     }
 
-    /////////////////Input Functions
 
     public void up(){
         dy = -1.5;

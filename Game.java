@@ -26,12 +26,14 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     Timer t = new Timer(5, this);
 
     //Values For Our Window Size
-    public int w = 1400;
-    public int h = 800;
+    public static int w = 1400;
+    public static int h = 800;
 
     double dx = 1;
     double dy = 1;
 
+    public static Ball Activeball;
+    public static Paddle Activepaddle;
     
 
     //A Contstructor For Our Ball CLass
@@ -46,48 +48,81 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         //Allows us to recieve key events for(From) our focused window
     }
 
-    //////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    public void paint(Graphics g) {
+        // Clears the screen before reprint a circle at a new postion
+        super.paint(g);
+        Graphics2D g2d = (Graphics2D) g;
 
-    
-    ////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+        // Antialising makes the figure smoother
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        //Creates Player One Paddle
+        g2d.setColor(Color.black);
+        g2d.fillOval(Activeball.x, Activeball.y, Activeball.cx, Activeball.cy);
+
+        //Creates Player One Paddle
+        g2d.setColor(Color.black);
+        g2d.fillRect(Activepaddle.xsquare, Activepaddle.ysquare, Activepaddle.hsquare, Activepaddle.lsquare);
+
+        //Creates Player Two Paddle
+        g2d.setColor(Color.black);
+        g2d.fillRect(Activepaddle.xsquare2, Activepaddle.ysquare2, Activepaddle.hsquare2, Activepaddle.lsquare2);
+        
 
 
-
-    //////////////////////////INPUT MANAGER(TICK)\\\\\\\\\\\\\\\\\\\\\\\\\\\
-    
+    }
 
     //Runs The Following Code Whenever An Action is Performed
     public void actionPerformed(ActionEvent e) {
         //Repaints Scree(Clears Old Player Location)
         //And Moves The Circle(Adds To Its Position/Transform)
         repaint();
-        if(ball.x >= w-cx ){
-            ball.dx = ball.dx * -1;
-        }
-        if(ball.y <= 0 || ball.y >= h-(cy+10)){
-            ball.dy = ball.dy * -1;
+        
+        
+        
+
+    }
+
+
+
+    public void CollisionDetection(){
+
+        ////////////////////////////////////////////////////////////////////////////////////////Check For Collision On Top And Bottom
+        if(Activeball.y <= 0 || Activeball.y >= h-(Activeball.cy+10)){
+            Activeball.dy = Activeball.dy * -1;
         }
 
 
-        //Checks For Collision With Left Rectangle
-        if(ball.x <= 5 && ball.x >= -5){
-            if(ball.y <= paddle.ysquare+90 && ball.y >= paddle.ysquare-90){
-                dx = dx * -1;
+        //////////////////////////////////////////////////////////////////////////////////////////Collision With Left Paddle
+        if(Activeball.x <= 30 && Activeball.x >= -40){
+            if(Activeball.y <= Activepaddle.ysquare+90 && Activeball.y >= Activepaddle.ysquare-40){
+                Activeball.dx = Activeball.dx * -1;
             }
         }
 
-        //Add Velocity
-        ball.x += dx*2;
-        ball.y += dy*2;
-
-        if(paddle.ysquare <= 0 || paddle.ysquare >= h-paddle.lsquare){
-            paddle.ysquarVel = paddle.ysquarVel * -1;
+        //////////////////////////////////////////////////////////////////////////////////////////Collision With Right Paddle
+        if(Activeball.x <= w+40 && Activeball.x >= w-105){
+            if(Activeball.y <= Activepaddle.ysquare2+90 && Activeball.y >= Activepaddle.ysquare2-40){
+                Activeball.dx = Activeball.dx * -1;
+            }
         }
 
-        paddle.ysquare += paddle.ysquarVel*3;
         
-        
+        //////////////////////////////////////////////////////////////////////////////////////////Right Paddle Collision With Top
+        if(Activepaddle.ysquare <= 0 || Activepaddle.ysquare >= h-Activepaddle.lsquare){
+            Activepaddle.ysquarVel = Activepaddle.ysquarVel * -1;
+        }
 
+        //////////////////////////////////////////////////////////////////////////////////////////Left Paddle Collision With Top
+
+        if(Activepaddle.ysquare2 <= 0 || Activepaddle.ysquare2 >= h-Activepaddle.lsquare2){
+            Activepaddle.ysquarVel2 = Activepaddle.ysquarVel2 * -1;
+        }
+        //Activepaddle.ysquare += Activepaddle.ysquarVel*3;
+
+        //////////////////////////////////////////////////////////////////////////////////////////Add Velocity To Paddle
+        Activeball.x += Activeball.dx*2;
+        Activeball.y += Activeball.dy*2;
     }
 
     //Check if A Key Is Pressed And Exectues The Following Commands
@@ -95,56 +130,33 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         //Inputs Are Recieved In Integer Values
         //So We Save This Value And Check It For Up,Down,Left,or Right
         int code = e.getKeyCode();
+        if(code == KeyEvent.VK_I){
+            Activeball.up(); //Then We Exxecute a Function
+        }
+        if(code == KeyEvent.VK_K){
+            Activeball.down(); //Then We Exxecute a Function
+        }
+        if(code == KeyEvent.VK_J){
+            Activeball.left(); //Then We Exxecute a Function
+        }
+        if(code == KeyEvent.VK_L){
+            Activeball.right(); //Then We Exxecute a Function
+        }
+
+        if(code == KeyEvent.VK_W){
+            Activepaddle.uppad1();
+        }
+        if(code == KeyEvent.VK_S){
+            Activepaddle.downpad1();
+        }
+
         if(code == KeyEvent.VK_UP){
-            ball.up(); //Then We Exxecute a Function
+            Activepaddle.uppad2();
         }
         if(code == KeyEvent.VK_DOWN){
-            ball.down(); //Then We Exxecute a Function
+            Activepaddle.downpad2();
         }
-        if(code == KeyEvent.VK_LEFT){
-            ball.left(); //Then We Exxecute a Function
-        }
-        if(code == KeyEvent.VK_RIGHT){
-            ball.right(); //Then We Exxecute a Function
-        }
-
-
-        // //Paddle Controls
-        // if(code == KeyEvent.VK_W){
-        //     upPad(); //Then We Exxecute a Function
-        // }
-        // if(code == KeyEvent.VK_S){
-        //     downPad(); //Then We Exxecute a Function
-        // }
-
-        // //Paddle Player two Controls
-        // if(code == KeyEvent.VK_I){
-        //     upPad2(); //Then We Exxecute a Function
-        // }
-        // if(code == KeyEvent.VK_K){
-        //     downPad2(); //Then We Exxecute a Function
-        // }
     }
-
-
-
-    ///////////////////////////CREATE GAME\\\\\\\\\\\\\\\\\\\\\\\\
-    public static void main(String[] args) throws InterruptedException {
-        // Creates The Window
-        JFrame frame = new JFrame("Mini Tennis");
-        Game game = new Game();
-        Ball ball = new Ball();
-        Paddle paddle = new Paddle();
-        frame.add(game);
-        frame.setSize(game.w, game.h);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        }
-
-
-
-
-    //UN USED COMPONENTS
 
     public void keyReleased(KeyEvent e) {
         //Because we implemented this is required to be here
@@ -153,24 +165,30 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         //Because we implemented this is required to be here
     }
 
+    ///////////////////////////CREATE GAME\\\\\\\\\\\\\\\\\\\\\\\\
+    public static void main(String[] args) throws InterruptedException {
+        // Creates The Window
+        JFrame frame = new JFrame("Mini Tennis");
+        Game game = new Game();
+        Ball ball = new Ball(game);
+        Paddle paddle = new Paddle(game);
+        frame.add(game);
+        frame.setSize(game.w, game.h);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    //Old But Not UseLess Code
-
-
-    //while (true) {
-
-        //game.repaint();
-
-        // Tells the processer that the thread which is being run must sleep for 10
-        // miliseconds
-        //Thread.sleep(10);
-}
-        //game.moveBall();
+        Activeball = ball;
+        Activepaddle = paddle;
+        
 
         
-        //This
-    //private void moveBall() {
-      //  x += dx;
-        //y += dy;
-    //}
-
+        while(true){
+            game.repaint();
+            Activeball.moveBall();
+            Activepaddle.movePaddle();
+            Activepaddle.movePaddle2();
+            game.CollisionDetection();
+            Thread.sleep(10);
+        }
+    }
+}

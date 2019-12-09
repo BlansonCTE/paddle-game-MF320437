@@ -1,64 +1,68 @@
 import java.awt.*;
 
 
-class Paddle implements ActionListener, KeyListener{
+class Paddle{
 
     private Paddle paddle;
+    private Game game;
 
     // Initalize Square Positions And Size( To The Left) (Player One)
-    public int hsquare = 10;  //widtth  
+    public int hsquare = 13;  //widtth  
     public int lsquare = 100; //height
 
-    public int xsquare = 0;
-    public int ysquare = 250;
+    public int xsquare = 25;   //Positionx
+    public int ysquare = 250;  //Positiony
 
     //Paddle Velocity
-    public int xsquareVel = 0;
-    public int ysquarVel = 0;
+    public double xsquareVel = 0;
+    public double ysquarVel = 0;
+
+
+    // Initalize Square Positions And Size( To The Left) (Player Two)
+    public int hsquare2 = 13;  //widtth  
+    public int lsquare2 = 100; //height
+
+    public int xsquare2 = 1350;   //Positionx
+    public int ysquare2 = 250;  //Positiony
+
+    //Paddle Velocity
+    public double xsquareVel2 = 0;
+    public double ysquarVel2 = 0;
 
     ///////////////////////////////////////////////Functions
 
     ////////////////Constructor
-    public Paddle(Game game){
-        this.game = game;
+    public Paddle(Game ngame){
+        this.game = ngame;
     }
 
-
-    ////////////////Move Paddle
-    public void paint(Graphics g) {
-        // Clears the screen before reprint a circle at a new postion
-        super.paint(g);
-        Graphics2D g2d = (Graphics2D) g;
-
-        // Antialising makes the figure smoother
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        // Draws the circle at new positionw ith same diameter
-        g2d.setColor(Color.black);
-        g2d.fillOval(x, y, cx, cy);
-
-
-    }
 
     /////////////////Input Functions
 
-    public void up(){
-        dy = -1.5;
-        dx = 0;
+
+    public void movePaddle(){
+        ysquare += ysquarVel*4;
+    }
+
+    public void movePaddle2(){
+        ysquare2 += ysquarVel2*4;
+    }
+
+
+    public void uppad1(){
+        ysquarVel = -1.5;
         
     }
-    public void down(){
-        dy = 1.5;
-        dx = 0;
+    public void downpad1(){
+        ysquarVel = 1.5;
     }
 
-    public void left(){
-        dx = -1.5;
-        dy = 0;
+    public void uppad2(){
+        ysquarVel2 = -1.5;
+        
     }
-    public void right(){
-        dx = 1.5;
-        dy = 0;
+    public void downpad2(){
+        ysquarVel2 = 1.5;
     }
 
 
@@ -67,17 +71,5 @@ class Paddle implements ActionListener, KeyListener{
 
 
 
-
-
-
-
-            //Creates Player One Paddle
-            g2d.setColor(Color.black);
-            g2d.fillRect(xsquare, ysquare, hsquare, lsquare);
-    
-            //Creates Player Two Paddle
-            g2d.setColor(Color.black);
-            g2d.fillRect(xsquare2, ysquare2, hsquare2, lsquare2);
-    
-            
+        
 }
