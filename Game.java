@@ -296,6 +296,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         
         
 
+        //Add Logo
+        //frame.add(new JLabel(new ImageIcon("Path/To/Your/Image.png")));
         
         while(true){
             game.repaint();
