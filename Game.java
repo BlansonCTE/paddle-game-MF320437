@@ -145,7 +145,9 @@ public class Game extends JPanel implements ActionListener, KeyListener {
             Player1Score++;
             Activeball.dx *= -1;
             Activeball.x += 10;
-            BallSpeed = 1;
+            if(BallSpeed < 3){
+                BallSpeed = 1;
+            }
          }
 
          //////////////////////////////////////////////////////////////////////////////////////////Collision With Right
@@ -154,7 +156,10 @@ public class Game extends JPanel implements ActionListener, KeyListener {
             Player2Score++;
             Activeball.dx *= -1;
             Activeball.x -= 10;
-            BallSpeed = 1;
+            if(BallSpeed < 3){
+                BallSpeed = 1;
+            }
+            
         }
 
         
@@ -301,6 +306,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
             
             
             Thread.sleep(10);
+
+        
            
         }
     }
