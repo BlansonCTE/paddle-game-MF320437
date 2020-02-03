@@ -1,5 +1,5 @@
 import java.awt.*;
-
+import java.awt.Rectangle;
 
 class Paddle{
 
@@ -10,26 +10,38 @@ class Paddle{
     public int hsquare = 13;  //widtth  
     public int lsquare = 100; //height
 
-    public int xsquare = 25;   //Positionx
-    public int ysquare = 250;  //Positiony
+    public int xsquare = 50;   //Positionx
+    public int ysquare = 400;  //Positiony
 
     //Paddle Velocity
     public double xsquareVel = 0;
-    public double ysquarVel = 0;
+    public double ysquareVel = 0;
 
 
     // Initalize Square Positions And Size( To The Left) (Player Two)
     public int hsquare2 = 13;  //widtth  
     public int lsquare2 = 100; //height
 
-    public int xsquare2 = 1350;   //Positionx
-    public int ysquare2 = 250;  //Positiony
+    public int xsquare2 = 1300;   //Positionx
+    public int ysquare2 = 400;  //Positiony
 
     //Paddle Velocity
     public double xsquareVel2 = 0;
-    public double ysquarVel2 = 0;
+    public double ysquareVel2 = 0;
 
     ///////////////////////////////////////////////Functions
+    public Rectangle getBounds1(){
+        return new Rectangle(xsquare,ysquare,hsquare,lsquare);
+    }
+    public Rectangle getBounds2(){
+        return new Rectangle(xsquare2,ysquare2,hsquare2,lsquare2);
+    }
+    public int getTopY1(){
+        return ysquare;
+    }
+    public int getTopY2(){
+        return ysquare2;
+    }
 
     ////////////////Constructor
     public Paddle(Game ngame){
@@ -41,28 +53,36 @@ class Paddle{
 
 
     public void movePaddle(){
-        ysquare += ysquarVel*4;
+        ysquare += ysquareVel*4;
     }
 
     public void movePaddle2(){
-        ysquare2 += ysquarVel2*4;
+        ysquare2 += ysquareVel2*4;
     }
 
 
-    public void uppad1(){
-        ysquarVel = -1.5;
+    public void leftpad1(){
+        ysquareVel = -1.5;
         
     }
-    public void downpad1(){
-        ysquarVel = 1.5;
+    public void rightpad1(){
+        ysquareVel = 1.5;
     }
 
-    public void uppad2(){
-        ysquarVel2 = -1.5;
+    public void leftpad2(){
+        ysquareVel2 = -1.5;
         
     }
-    public void downpad2(){
-        ysquarVel2 = 1.5;
+    public void rightpad2(){
+        ysquareVel2 = 1.5;
+    }
+
+    public void stop1(){
+        ysquareVel = 0;
+    }
+
+    public void stop2(){
+        ysquareVel2 = 0;
     }
 
 
