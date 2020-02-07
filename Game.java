@@ -254,8 +254,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         }
         if(x == 1){
             Paused = false;
-            String content = ("Score:"+Math.max(Player1Score, Player2Score)+"K: Password");
-            String path = ("U:/VStudio/Github/Project1/Moveball- MF320437/paddle-game-MF320437");
+            String content = ("Score:"+Math.max(Player1Score, Player2Score)+" Key: Password");
+            String path = ("U:/VStudio/Github/Project1/Moveball- MF320437/paddle-game-MF320437/score.txt");
             try {
                 Files.write(Paths.get(path),content.getBytes());
             } catch (IOException e) {
