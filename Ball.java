@@ -1,4 +1,4 @@
-import java.awt.*;
+    import java.awt.*;
 import java.awt.Rectangle;
 
 class Ball{
@@ -48,6 +48,7 @@ class Ball{
         y += dy*game.BallSpeed;
         if(collision()){
             dx *= -1;
+            x += dx*10;
             game.BallSpeed += 1;
         }
     }

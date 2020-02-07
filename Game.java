@@ -10,6 +10,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InterruptedIOException;
+import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import javax.swing.Timer;
 
 @SuppressWarnings("serial")
@@ -46,6 +53,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
     public  int BallSpeed = 1;
     public  int PaddleSpeed = 1;
+
+    public static boolean Paused;
     
 
     //A Contstructor For Our Ball CLass
@@ -141,7 +150,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
         //////////////////////////////////////////////////////////////////////////////////////////Collision With Left
          if(Activeball.x <= -10 && Activeball.x >= -40){
-            Scored(1, Activeframe, Activegame);
+            Scored(1, Activeframe, Activegame,Activeball);
             Player1Score++;
             Activeball.dx *= -1;
             Activeball.x += 10;
@@ -151,8 +160,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
          }
 
          //////////////////////////////////////////////////////////////////////////////////////////Collision With Right
-        if(Activeball.x >= w+120 ){ //&& Activeball.x >= w-105
-            Scored(2, Activeframe, Activegame);
+        if(Activeball.x >= w+50 ){ //&& Activeball.x >= w-105
+            Scored(2, Activeframe, Activegame,Activeball);
             Player2Score++;
             Activeball.dx *= -1;
             Activeball.x -= 10;
@@ -164,12 +173,12 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
         
         // //////////////////////////////////////////////////////////////////////////////////////////Right Paddle Collision With Top
-        // if(Activepaddle.ysquare <= 0 ){
-        //     Activepaddle.ysquare = 1;
-        // }
-        // if(Activepaddle.ysquare >= h-(Activepaddle.lsquare+20)){
-        //     Activepaddle.ysquare = h-(Activepaddle.lsquare+20);
-        // }
+        if(Activepaddle.ysquare <= 0 ){
+            Activepaddle.ysquare = 1;
+        }
+        if(Activepaddle.ysquare >= h-(Activepaddle.lsquare+20)){
+            Activepaddle.ysquare = h-(Activepaddle.lsquare+20);
+        }
 
         
 
@@ -206,36 +215,77 @@ public class Game extends JPanel implements ActionListener, KeyListener {
             Activeball.right(); //Then We Exxecute a Function
         }
 
-        if(code == KeyEvent.VK_A){
+        if(code == KeyEvent.VK_W){
             Activepaddle.leftpad1();
         }
-        if(code == KeyEvent.VK_D){
+        if(code == KeyEvent.VK_S){
             Activepaddle.rightpad1();
 
         }
 
-        if(code == KeyEvent.VK_LEFT){
+        if(code == KeyEvent.VK_UP){
             Activepaddle.leftpad2();
         }
-        if(code == KeyEvent.VK_RIGHT){
+        if(code == KeyEvent.VK_DOWN){
             Activepaddle.rightpad2();
         }
+
+
+
+        //Pause
+        if(code == KeyEvent.VK_P){
+            if(!Paused){
+                Pause(Activeframe);
+            }
+            else{
+
+            }
+            
+        }
+    }
+
+    public void Pause(JFrame frame) {
+        Paused = true;
+        String Options[] = {"Unpause", "Save","Exit"};
+        int x = JOptionPane.showOptionDialog(null, "Paused!", "Pause Menu", JOptionPane.NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, Options, Options[0]);
+        if(x == 0){
+            Paused = false;
+            System.out.print("UnPaused!");
+        }
+        if(x == 1){
+            Paused = false;
+            String content = ("Score:"+Math.max(Player1Score, Player2Score)+"K: Password");
+            String path = ("U:/VStudio/Github/Project1/Moveball- MF320437/paddle-game-MF320437");
+            try {
+                Files.write(Paths.get(path),content.getBytes());
+            } catch (IOException e) {
+                //TODO: handle exception
+            }
+            
+            System.out.print("Saving!");
+        }
+        if(x == 2){
+            Paused = false;
+            System.out.print("Exit!");
+            System.exit(ABORT);
+        }
+        
     }
 
 
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
         //Because we implemented this is required to be here
-        if(code == KeyEvent.VK_A){
+        if(code == KeyEvent.VK_W){
             Activepaddle.stop1();
         }
-        if(code == KeyEvent.VK_D){
+        if(code == KeyEvent.VK_S){
             Activepaddle.stop1();
         }
-        if(code == KeyEvent.VK_LEFT){
+        if(code == KeyEvent.VK_UP){
             Activepaddle.stop2();
         }
-        if(code == KeyEvent.VK_RIGHT){
+        if(code == KeyEvent.VK_DOWN){
             Activepaddle.stop2();
         }
     }
@@ -245,9 +295,12 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
 
 
-    void Scored(int Player, JFrame f,Game game) throws InterruptedException {
+    void Scored(int Player, JFrame f,Game game, Ball b) throws InterruptedException {
         if(Player == 1){
             JOptionPane.showMessageDialog(f, "Player 1 SCORED!");
+            b.x = w/2;
+            b.y = h/2;
+            BallSpeed = 1;
             Thread.sleep(1000);
             if(Player1Score >= 3){
                 JOptionPane.showMessageDialog(f, "Player 1 WON!");
@@ -256,6 +309,9 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         else{
             
             JOptionPane.showMessageDialog(f, "Player 2 SCORED!");
+            b.x = w/2;
+            b.y = h/2;
+            BallSpeed = 1;
             Thread.sleep(1000);
             if(Player2Score >= 3){
                 JOptionPane.showMessageDialog(f, "Player 2 WON!");
@@ -298,19 +354,21 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
         //Add Logo
         //frame.add(new JLabel(new ImageIcon("Path/To/Your/Image.png")));
-        
         while(true){
-            game.repaint();
-            Activeball.moveBall();
-            Activepaddle.movePaddle();
-            Activepaddle.movePaddle2();
-            game.CollisionDetection();
+            while(!Paused){
+                game.repaint();
+                Activeball.moveBall();
+                Activepaddle.movePaddle();
+                Activepaddle.movePaddle2();
+                game.CollisionDetection();
+                
+                
+                Thread.sleep(10);
+    
             
-            
-            Thread.sleep(10);
-
-        
-           
+               
+            }
         }
+        
     }
 }
