@@ -55,7 +55,11 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     public  int PaddleSpeed = 1;
 
     public static boolean Paused;
-    
+    public static GameMenu Menu;
+
+    Game(GameMenu menu){
+        Menu= menu;
+    }
 
     //A Contstructor For Our Ball CLass
     //This Way When Its Created Our Timer Starts
@@ -151,7 +155,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         //////////////////////////////////////////////////////////////////////////////////////////Collision With Left
          if(Activeball.x <= -10 && Activeball.x >= -40){
             Scored(1, Activeframe, Activegame,Activeball);
-            Player1Score++;
+            Player2Score++;
             Activeball.dx *= -1;
             Activeball.x += 10;
             if(BallSpeed < 3){
@@ -162,7 +166,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
          //////////////////////////////////////////////////////////////////////////////////////////Collision With Right
         if(Activeball.x >= w+50 ){ //&& Activeball.x >= w-105
             Scored(2, Activeframe, Activegame,Activeball);
-            Player2Score++;
+            Player1Score++;
             Activeball.dx *= -1;
             Activeball.x -= 10;
             if(BallSpeed < 3){
@@ -254,7 +258,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         }
         if(x == 1){
             Paused = false;
-            String content = ("Score:"+Math.max(Player1Score, Player2Score)+" Key: Password");
+            String content = ("Score:"+Player1Score+Player2Score+" Key: Password");
             String path = ("U:/VStudio/Github/Project1/Moveball- MF320437/paddle-game-MF320437/score.txt");
             try {
                 Files.write(Paths.get(path),content.getBytes());
@@ -267,6 +271,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         if(x == 2){
             Paused = false;
             System.out.print("Exit!");
+            Menu.EnableMenue();
             System.exit(ABORT);
         }
         

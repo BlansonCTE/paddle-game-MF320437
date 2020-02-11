@@ -13,6 +13,7 @@ import java.awt.event.*;
 public class GameMenu extends JPanel{
     public static int w = 1400;
     public static int h = 800;
+    public static Boolean isMenue = true;
 
     JButton createStartButton(JFrame frame){
         JButton start_Button = new JButton("PLAY");
@@ -25,6 +26,9 @@ public class GameMenu extends JPanel{
         quit_Button.setBounds(575,650,250,100);
         frame.add(quit_Button);
         return(quit_Button);
+    }
+    void EnableMenue(){
+        isMenue = true;
     }
 
     
@@ -46,21 +50,26 @@ public class GameMenu extends JPanel{
 
         //Get Button Clicks
         while(Running == true){
-
-
-            if(StartButton.getModel().isPressed()){
-                System.out.print("Pressed Start");
-                Running = false; //Disable Button
-                Game game = new Game();
-                game.CallMain();
-            }
-
-            if(QuitButton.getModel().isPressed()){
-                System.out.print("Pressed QUIT");
-                Running = false; //Disable Button
-                System.exit(ABORT);
+            if(isMenue){
+                if(StartButton.getModel().isPressed()){
+                    System.out.print("Pressed Start");
+                    Running = false; //Disable Button
+                    Game game = new Game(Menue);
+                    game.CallMain();
+                    isMenue = false;
+                    
+                }
+    
+                if(QuitButton.getModel().isPressed()){
+                    System.out.print("Pressed QUIT");
+                    Running = false; //Disable Button
+                    System.exit(ABORT);
+                }
             }
         }
+
+
+        
 
         
 
