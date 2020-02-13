@@ -7,13 +7,18 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.*;
 import java.awt.event.*;
-
+import java.util.Arrays;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class GameMenu extends JPanel{
     public static int w = 1400;
     public static int h = 800;
     public static Boolean isMenue = true;
+    public int Balance;
+
+    public List<String> colors = Arrays.asList("Green,Blue,Yellow,Red");
+    public List<JButton> custom_buttons;
 
     JButton createStartButton(JFrame frame){
         JButton start_Button = new JButton("PLAY");
@@ -27,6 +32,21 @@ public class GameMenu extends JPanel{
         frame.add(quit_Button);
         return(quit_Button);
     }
+
+    JButton createRandomButton(JFrame frame,String name,List<String> buttons){
+        int accum = 0;
+        for (String str : buttons) {
+            JButton Button = new JButton(str);
+            Button.setBounds(575,650,250,100);
+            frame.add(quit_Button);
+        }
+        
+        return(quit_Button);
+    }
+
+
+
+    
     void EnableMenue(){
         isMenue = true;
     }
