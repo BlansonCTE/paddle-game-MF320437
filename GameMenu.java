@@ -7,6 +7,9 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,15 +36,11 @@ public class GameMenu extends JPanel{
         return(quit_Button);
     }
 
-    JButton createRandomButton(JFrame frame,String name,List<String> buttons){
-        int accum = 0;
-        for (String str : buttons) {
-            JButton Button = new JButton(str);
-            Button.setBounds(575,650,250,100);
-            frame.add(quit_Button);
-        }
-        
-        return(quit_Button);
+    JButton MicroTransaction(JFrame frame){
+        JButton Micro_Button = new JButton("REMOVE ADS");
+        Micro_Button.setBounds(975,650,250,100);
+        frame.add(Micro_Button);
+        return(Micro_Button);
     }
 
 
@@ -51,12 +50,29 @@ public class GameMenu extends JPanel{
         isMenue = true;
     }
 
+    public void MicroTran(JFrame newframe) {
+        String Options[] = {"BUY", "COST","Exit"};
+        int x = JOptionPane.showOptionDialog(null, "ADS!", "Ad Menu", JOptionPane.NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, Options, Options[0]);
+        if(x == 0){
+            System.out.print("YOUR TOO POOR!");
+        }
+        if(x == 1){
+            System.out.print("9.99$ Payed To Martineus Fearon Owner Of EAA");
+        }
+        if(x == 2){
+            System.out.print("Exit!");
+            System.exit(ABORT);
+        }
+        
+    }
+
     
     public static void main(String[] args) throws InterruptedException {
         JFrame frame = new JFrame("Main Menu");
         GameMenu Menue = new GameMenu();
         boolean Running = true;
-
+        isMenue = true;
+        
         frame.add(Menue);
         frame.setLayout(null);
         frame.setSize(Menue.w, Menue.h);
@@ -66,7 +82,10 @@ public class GameMenu extends JPanel{
         //create start button
         JButton StartButton = Menue.createStartButton(frame);
         JButton QuitButton = Menue.createQuitButton(frame);
+        JButton MicroButton = Menue.MicroTransaction(frame);
 
+
+        
 
         //Get Button Clicks
         while(Running == true){
@@ -82,6 +101,14 @@ public class GameMenu extends JPanel{
     
                 if(QuitButton.getModel().isPressed()){
                     System.out.print("Pressed QUIT");
+                    Running = false; //Disable Button
+                    System.exit(ABORT);
+                }
+
+
+
+                if(MicroButton.getModel().isPressed()){
+                    Menue.MicroTran(frame);
                     Running = false; //Disable Button
                     System.exit(ABORT);
                 }
